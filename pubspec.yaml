@@ -1,0 +1,20 @@
+name: dram
+description: Dart package that contains a set of common utilities.
+version: 1.0.0
+homepage: https://github.com/TomasWeg/dram
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  intl: ^0.16.1
+  firebase_crashlytics: ^0.4.0+1
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
