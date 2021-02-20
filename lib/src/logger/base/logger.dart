@@ -1,4 +1,5 @@
 
+import 'package:dram/logger.dart';
 import 'package:dram/src/logger/base/log_event.dart';
 import 'package:dram/src/logger/filter/log_filter.dart';
 import 'package:dram/src/logger/output/log_output.dart';
@@ -14,7 +15,7 @@ class Logger {
   /// Creates a new Logger
   factory Logger({LogFilter filter, LogOutput output, LogLevel minimumLevel = LogLevel.Debug}) {
     if(_instance == null) {
-      _instance = Logger._(minimumLevel, filter, output);
+      _instance = Logger._(minimumLevel, filter ?? DefaultFilter(), output ?? ConsoleLogOutput());
     }
 
     return _instance;
@@ -53,6 +54,10 @@ class Logger {
   }
 
   void _log(LogLevel level, String message, Map<String, dynamic> data, dynamic error, StackTrace stackTrace) {
+    if(level.index < minimumLevel.index) {
+      return;
+    }
+
     LogEvent event = LogEvent(level, message: message, data: data, error: error, stackTrace: stackTrace);
     if(_logFilter.shouldLog(event)) {
       try {

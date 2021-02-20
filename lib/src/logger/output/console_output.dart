@@ -12,7 +12,7 @@ class ConsoleLogOutput extends LogOutput {
 
   bool _usePrint;
 
-  ConsoleLogOutput({bool usePrint}) {
+  ConsoleLogOutput({bool usePrint = false}) {
     _usePrint = usePrint;
   }
 
@@ -31,10 +31,7 @@ class ConsoleLogOutput extends LogOutput {
   @override
   void write(LogEvent event) {
     var logLevelName = event.level.getName();
-    var currentTime = DateTime.now();
-
-    var date = "${currentTime.day.toString().padLeft(2, '0')}/${currentTime.month.toString().padLeft(2, '0')}/${currentTime.year.toString().padLeft(2, '0')}";
-    var message = '[$date] [$logLevelName] ${event.message}${event.error != null ? '. ' : ''}';
+    var message = '[${_date()}] [$logLevelName] ${event.message}${event.error != null ? '. ' : ''}';
     message = _levelColors[event.level](message);
     var shouldDivide = event.error != null || event.data != null;
 
@@ -74,5 +71,10 @@ class ConsoleLogOutput extends LogOutput {
     } else {
       lines.forEach((line) => developer.log(line, name: _logName));
     }
+  }
+
+  String _date() {
+    DateTime now = DateTime.now();
+    return '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
   }
 }
