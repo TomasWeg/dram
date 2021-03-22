@@ -10,7 +10,7 @@ import 'log_output.dart';
 
 class ConsoleLogOutput extends LogOutput {
 
-  bool _usePrint;
+  late bool _usePrint;
 
   ConsoleLogOutput({bool usePrint = false}) {
     _usePrint = usePrint;
@@ -31,18 +31,18 @@ class ConsoleLogOutput extends LogOutput {
   @override
   void write(LogEvent event) {
     var logLevelName = event.level.getName();
-    var message = '[${_date()}] [$logLevelName] ${event.message}${event.error != null ? '. ' : ''}';
-    message = _levelColors[event.level](message);
+    String? message = '[${_date()}] [$logLevelName] ${event.message}${event.error != null ? '. ' : ''}';
+    message = _levelColors[event.level!]!(message);
     var shouldDivide = event.error != null || event.data != null;
 
-    var lines = <String>[];
+    var lines = <String?>[];
 
     if(shouldDivide) {
       lines.add('$_divider');
     }
 
     if(event.error != null) {
-      message += _levelColors[LogLevel.Error](event.error.toString());
+      message += _levelColors[LogLevel.Error]!(event.error.toString());
     }
 
     lines.add(message);
@@ -54,7 +54,7 @@ class ConsoleLogOutput extends LogOutput {
 
     if(event.error != null){
       if(event.stackTrace != null) {
-        lines.add(_levelColors[LogLevel.Warning](event.stackTrace.toString()));
+        lines.add(_levelColors[LogLevel.Warning]!(event.stackTrace.toString()));
       }
     }
 
@@ -65,11 +65,11 @@ class ConsoleLogOutput extends LogOutput {
     _log(lines);
   }
 
-  void _log(List<String> lines) {
+  void _log(List<String?> lines) {
     if(_usePrint) {
       lines.forEach(print);
     } else {
-      lines.forEach((line) => developer.log(line, name: _logName));
+      lines.forEach((line) => developer.log(line!, name: _logName));
     }
   }
 

@@ -4,7 +4,7 @@ class AnsiColor {
   static const _ansiEsc = '\x1B[';
   static const _ansiDefault = '${_ansiEsc}0m';
 
-  final int fg;
+  final int? fg;
 
   AnsiColor.none() : fg = null;
   AnsiColor(this.fg);

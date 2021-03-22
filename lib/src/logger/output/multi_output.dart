@@ -7,7 +7,7 @@ import 'log_output.dart';
 /// A [LogOutput] that writes a [LogEvent] to multiple [LogOutput]s 
 class MultiLogOutput extends LogOutput {
   
-  List<LogOutput> _outputs;
+  late List<LogOutput> _outputs;
 
   MultiLogOutput(List<LogOutput> outputs) {
     _outputs = outputs;

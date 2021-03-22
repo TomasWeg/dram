@@ -8,7 +8,7 @@ enum LogLevel {
   Fatal
 }
 
-extension LogLevelExtension on LogLevel {
+extension LogLevelExtension on LogLevel? {
 
   static final Map<LogLevel, String> _names = {
     LogLevel.Debug: 'DEBUG',
@@ -18,7 +18,7 @@ extension LogLevelExtension on LogLevel {
     LogLevel.Info: 'INFO'
   };
 
-  String getName() {
-    return _names[this];
+  String? getName() {
+    return _names[this!];
   }
 }
