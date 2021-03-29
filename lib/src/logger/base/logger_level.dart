@@ -1,6 +1,7 @@
 
 /// Represents the level of a log message
 enum LogLevel {
+  Trace,
   Debug,
   Info,
   Warning,
@@ -11,6 +12,7 @@ enum LogLevel {
 extension LogLevelExtension on LogLevel? {
 
   static final Map<LogLevel, String> _names = {
+    LogLevel.Trace: 'TRACE',
     LogLevel.Debug: 'DEBUG',
     LogLevel.Error: 'ERROR',
     LogLevel.Fatal: 'FATAL',
@@ -18,7 +20,7 @@ extension LogLevelExtension on LogLevel? {
     LogLevel.Info: 'INFO'
   };
 
-  String? getName() {
-    return _names[this!];
+  String getName() {
+    return _names[this]!;
   }
 }

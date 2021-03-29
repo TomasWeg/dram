@@ -33,6 +33,11 @@ class Logger {
     _log(LogLevel.Info, message, data, error, stackTrace);
   }
 
+  /// Logs an [LogLevel.Trace] message
+  static void trace(String message, {dynamic error, StackTrace? stackTrace, Map<String, dynamic>? data}) {
+    _log(LogLevel.Trace, message, data, error, stackTrace);
+  }
+
   /// Logs an [LogLevel.Debug] message
   static void debug(String message, {dynamic error, StackTrace? stackTrace, Map<String, dynamic>? data}) {
     _log(LogLevel.Debug, message, data, error, stackTrace);

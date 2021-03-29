@@ -5,7 +5,7 @@ import 'package:dram/src/logger/base/logger_level.dart';
 import 'package:dram/src/logger/output/console_output.dart';
 
 void main() {
-  var output = ConsoleLogOutput(usePrint: true);
+  var output = ConsoleLogOutput(logWriter: ConsoleLogWriter.Stdout);
   output.write(LogEvent(LogLevel.Error, 
     message: 'Unhandled error',
     error: SocketException('Failed to look up host.'),

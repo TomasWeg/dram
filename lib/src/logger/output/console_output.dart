@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
+import 'dart:io';
 
 import 'package:dram/src/logger/base/ansi_color.dart';
 import 'package:dram/src/logger/base/log_event.dart';
@@ -10,11 +11,9 @@ import 'log_output.dart';
 
 class ConsoleLogOutput extends LogOutput {
 
-  late bool _usePrint;
+  ConsoleLogWriter logWriter;
 
-  ConsoleLogOutput({bool usePrint = false}) {
-    _usePrint = usePrint;
-  }
+  ConsoleLogOutput({this.logWriter = ConsoleLogWriter.Developer});
 
   static final Map<LogLevel, AnsiColor> _levelColors = {
     LogLevel.Debug: AnsiColor.none(),
@@ -66,10 +65,12 @@ class ConsoleLogOutput extends LogOutput {
   }
 
   void _log(List<String?> lines) {
-    if(_usePrint) {
+    if(logWriter == ConsoleLogWriter.Print) {
       lines.forEach(print);
-    } else {
+    } else if(logWriter == ConsoleLogWriter.Developer) {
       lines.forEach((line) => developer.log(line!, name: _logName));
+    } else {
+      lines.forEach((line) => stdout.writeln(line));
     }
   }
 
@@ -77,4 +78,10 @@ class ConsoleLogOutput extends LogOutput {
     DateTime now = DateTime.now();
     return '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
   }
+}
+
+enum ConsoleLogWriter {
+  Print,
+  Stdout,
+  Developer
 }
