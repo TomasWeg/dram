@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      reflectable:
+        generate_for:
+          - lib/src/app/storage/repository/reflection/query_interpreter.dart
+        options:
+          formatted: true
