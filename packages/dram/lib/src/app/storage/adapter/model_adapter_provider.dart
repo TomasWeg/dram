@@ -21,13 +21,13 @@ abstract class ModelAdapterProvider {
   }
 
   /// Returns the [T] model [Adapter], if any.
-  ModelAdapter adapterFor<T>() {
+  ModelAdapter<T> adapterFor<T>() {
     var adapter = _adapters[T];
     if(adapter == null) {
       throw new AdapterNotFoundException(T);
     }
 
-    return adapter;
+    return adapter as ModelAdapter<T>;
   }
 }
 

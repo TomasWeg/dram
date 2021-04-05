@@ -9,7 +9,7 @@ abstract class ISortedQueryable<T> extends IQueryable<T> {
   }
 
   ISortedQueryable<T> thenBy(String fieldName) {
-    return _parent.
+    return this;
   }
 
 }
