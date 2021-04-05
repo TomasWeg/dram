@@ -18,6 +18,8 @@ dependencies:
   reflectable: ^3.0.1
   build_runner: ^1.12.2
   built_value_generator: ^8.0.4
+  dram_core: ^1.0.0
+  dram_queryable: ^1.0.0
   flutter:
     sdk: flutter
 
@@ -26,5 +28,9 @@ dev_dependencies:
 
 dependency_overrides:
   device_info_plus_platform_interface: 1.0.1
+  dram_core:
+    path: ../dram_core/
+  dram_queryable:
+    path: ../dram_queryable/
 
 flutter:

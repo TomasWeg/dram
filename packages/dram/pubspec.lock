@@ -168,7 +168,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   dart_style:
     dependency: transitive
     description:
@@ -217,6 +217,20 @@ packages:
       name: device_info_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
+    version: "1.0.0"
+  dram_core:
+    dependency: "direct main"
+    description:
+      path: "../dram_core"
+      relative: true
+    source: path
+    version: "1.0.0"
+  dram_queryable:
+    dependency: "direct main"
+    description:
+      path: "../dram_queryable"
+      relative: true
+    source: path
     version: "1.0.0"
   ffi:
     dependency: transitive
@@ -533,7 +547,21 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
+  sqflite:
+    dependency: transitive
+    description:
+      name: sqflite
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+3"
+  sqflite_common:
+    dependency: transitive
+    description:
+      name: sqflite_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+2"
   stack_trace:
     dependency: transitive
     description:
@@ -562,6 +590,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   system_info:
     dependency: "direct main"
     description:
@@ -631,7 +666,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.0+1"
+    version: "6.2.0"
   watcher:
     dependency: transitive
     description:
@@ -669,4 +704,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=1.24.0-10"

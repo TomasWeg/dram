@@ -15,10 +15,6 @@ export 'src/app/device/platform.dart';
 export 'src/app/device/device_information.dart';
 export 'src/app/storage/adapter/model_adapter.dart';
 export 'src/app/storage/provider/provider.dart';
-export 'src/app/storage/repository/query/where.dart';
-export 'src/app/storage/repository/query/query.dart';
-
-export 'src/app/storage/repository/queryable/queryable.dart';
 
 /// Runs an application
 Future runApplication<TApplication extends Application>(TApplication application, Widget root) async {
