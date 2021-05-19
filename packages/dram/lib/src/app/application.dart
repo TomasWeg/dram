@@ -1,14 +1,19 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:dram/app.dart';
 import 'package:dram/logger.dart';
 import 'package:dram/src/app/dependency_injection/service.dart';
 import 'package:dram/src/app/device/device_information.dart';
+import 'package:dram/src/app/device/universal_platform/universal_platform.dart';
 import 'package:dram/src/app/error_handler/base_error_handler.dart';
-import 'package:dram/src/app/storage/adapter/model_adapter.dart';
-import 'package:dram/src/app/storage/adapter/model_adapter_provider.dart';
+import 'package:dram/src/app/service/adapter/model_adapter_provider.dart';
+import 'package:dram/src/app/service/domain_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+
+import 'module/module.dart';
+import 'service/adapter/model_adapter.dart';
 
 /// Represents a base application
 abstract class Application {
@@ -24,7 +29,10 @@ abstract class Application {
   BaseErrorHandler get errorHandler;
 
   /// The list of model that are mappeds to their corresponding adapter
-  Map<Type, ModelAdapter> get modelAdapters;
+  Map<Type, ModelAdapterBuilder> get modelAdapters;
+
+  /// The modules of the application
+  List<Module> get modules;
 
   /// Initializes the application
   Future init({required Widget main, required DeviceInformation deviceInformation}) async {
@@ -41,15 +49,13 @@ abstract class Application {
       await beforeAppInitialization(); 
     } catch(_) {}
 
-    // Load storage
-    Logger.trace("Loading storage...");
-    _loadStorage();
-
     // Register dependencies
     Logger.trace("Registering services...");
 
     ServiceCollection serviceCollection = ServiceCollection();
     registerServices(serviceCollection);
+    await _loadModules(serviceCollection);
+    await _loadDomainServices(serviceCollection);
     Logger.debug("Registered ${serviceCollection.services} services.");
 
     // Wait until required services are loaded
@@ -71,6 +77,10 @@ abstract class Application {
       // Run Flutter app
       runApp(this._main);
 
+      // Late initialization of modules
+      Logger.trace("Calling late initialization of modules...");
+      _lateModulesInit();
+
       // Execute after app initialization
       try { 
         Logger.trace("Calling afterAppInitialization...");
@@ -91,9 +101,30 @@ abstract class Application {
   /// Registers all the services to use in the application
   void registerServices(ServiceCollection services);
 
-  void _loadStorage() {
-    DefaultModelAdapterProvider(modelAdapters);
+  List<DomainService> registerDomainServices(Platform platform) => [];
 
+  Future _loadDomainServices(ServiceCollection services) async {
+    Logger.debug("Loading domain services...");
+    var domainServices = registerDomainServices(UniversalPlatform.getCurrentPlatform());
+    for(DomainService domainService in domainServices) {
+      services.registerSingleton(domainService);
+    }
+
+    await Future.wait(domainServices.map((e) => e.init()));
+  }
+
+  Future _loadModules(ServiceCollection services) async {
+    Logger.debug("Loading modules...");
+    DefaultModelAdapterProvider(modelAdapters);
+    for(Module module in modules) {
+      services.registerSingleton(module);
+    }
+
+    await Future.wait(modules.map((e) => e.initialize()));
+  }
+
+  Future _lateModulesInit() async {
+    await Future.wait(modules.map((e) => e.lateInitialization()));
   }
 
 }

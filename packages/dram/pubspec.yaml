@@ -12,14 +12,20 @@ dependencies:
   queries: ^0.1.14
   uuid: ^3.0.3
   get_it: ^6.0.0
+  dio: ^4.0.0
   device_info_plus: ^1.0.0
   firebase_crashlytics: ^1.0.0
   system_info: ^1.0.0
   reflectable: ^3.0.1
   build_runner: ^1.12.2
   built_value_generator: ^8.0.4
+  sqflite: ^2.0.0+3
   dram_core: ^1.0.0
-  dram_queryable: ^1.0.0
+  path_provider: ^2.0.1
+  universal_html: ^2.0.8
+  flutter_secure_storage: ^4.2.0
+  workmanager: ^0.4.0
+  #dram_queryable: ^1.0.0
   flutter:
     sdk: flutter
 
@@ -27,10 +33,10 @@ dev_dependencies:
   test: ^1.16.8
 
 dependency_overrides:
-  device_info_plus_platform_interface: 1.0.1
+  device_info_plus_platform_interface: 1.0.2
   dram_core:
     path: ../dram_core/
-  dram_queryable:
-    path: ../dram_queryable/
+  #dram_queryable:
+  #  path: ../dram_queryable/
 
 flutter:

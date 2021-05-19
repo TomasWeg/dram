@@ -1,4 +1,3 @@
-import 'package:dram/src/logger/base/ansi_color.dart';
 import 'package:dram/src/logger/base/log_event.dart';
 import 'package:dram/src/logger/base/logger_level.dart';
 

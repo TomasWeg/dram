@@ -26,4 +26,9 @@ class ServiceProvider {
 
     return GetIt.I.get<TModel>(instanceName: name);
   }
+
+  /// Returns true if a service is registered.
+  bool isRegistered<TModel extends Object>({String? name}) {
+    return GetIt.I.isRegistered<TModel>(instanceName: name);
+  }
 }
