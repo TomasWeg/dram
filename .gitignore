@@ -9,3 +9,6 @@ build/
 doc/api/
 
 packages/dram/example/android
+
+lib.a
+lib.h
