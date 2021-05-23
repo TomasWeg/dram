@@ -8,7 +8,12 @@ build/
 # Directory created by dartdoc
 doc/api/
 
-packages/dram/example/android
+dart_packages/dram/example/android
+dart_packages/dram/example/ios
+dart_packages/dram/example/web
+dart_packages/dram_queryable/example/android
+dart_packages/dram_queryable/example/ios
+dart_packages/dram_queryable/example/web
 
 lib.a
 lib.h
