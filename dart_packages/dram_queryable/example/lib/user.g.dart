@@ -2,12 +2,18 @@
 import 'package:dram_queryable/dram_queryable.dart';
 import 'package:example/user.dart';
 
-class QueryModel {
+class MyDatabase extends Database<MyDatabaseModel> {
+  MyDatabase() : super(MyDatabaseModel._());
+}
+
+class MyDatabaseModel extends DatabaseModel {
+  MyDatabaseModel._();
+
   static const List<QueryableModel> _models = [
     UserModel._(),
   ];
 
-  UserModel get users => _models[0] as UserModel;
+  UserModel get users => _models[0] as UserModel; 
 }
 
 class UserModel extends QueryableModel<User> {

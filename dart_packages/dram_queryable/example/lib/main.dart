@@ -5,10 +5,15 @@ void main() {
   runApp(MyApp());
 
 
-  var query = QueryModel();
-  // query.users.name.
+  var database = MyDatabase();
+  var model = database.select((model) => model.users);
+  model.where((queryable) => queryable.name.isEqualsTo("tomas"));
+  model.whereM((queryable) => [
+    queryable.name.isEqualsTo("test"),
+  ]);
 
 }
+
 
 class MyApp extends StatelessWidget {
   @override

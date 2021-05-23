@@ -1,3 +1,8 @@
+import 'package:dram_queryable/dram_queryable.dart';
+
+part 'expression.dart';
+part 'where.dart';
+
 abstract class Queryable {
   final String modelName;
 
@@ -11,8 +16,8 @@ abstract class QueryableModel<TModel> extends Queryable {
 abstract class QueryableProperty<DartType> extends Queryable {
   const QueryableProperty(String fieldName) : super(fieldName);
 
-  void isEqualsTo(DartType other) {
-
+  Expression isEqualsTo(DartType other) {
+    throw UnimplementedError();
   }
 
   void isNotEqualsTo(DartType other) {
