@@ -14,10 +14,16 @@ class SelectableExpression<TModel, TQueryable extends QueryableModel<TModel>> ex
 
   Database where(Expression Function(TQueryable queryable) expression) {
     var builtExpression = expression(_queryableModel);
+
+    if(builtExpression is Where) {
+      var queryExpressions = refactor(builtExpression._queryableModel._expressions);
+      debugPrint(queryExpressions);
+    }
+
     return _database;
   }
 
-  Database whereM(Iterable<TModel> Function(TQueryable queryable) expressions) {
-    return _database;
-  }
+  // Database whereM(Iterable<TModel> Function(TQueryable queryable) expressions) {
+  //   return _database;
+  // }
 }

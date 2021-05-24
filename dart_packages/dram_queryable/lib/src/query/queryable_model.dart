@@ -1,82 +1,98 @@
+
 import 'package:dram_queryable/dram_queryable.dart';
 
+part 'debug_print.dart';
 part 'expression.dart';
+part 'interpreter.dart';
 part 'where.dart';
 
-abstract class Queryable {
+abstract class Queryable extends Expression {
   final String modelName;
 
-  const Queryable(this.modelName);
+  const Queryable(this.modelName) : super(modelName);
 }
 
 abstract class QueryableModel<TModel> extends Queryable {
-  const QueryableModel(String name) : super(name);
+  final List<Expression> _expressions = [];
+  bool _nextRequired;
+
+  QueryableModel(String name) : _nextRequired = true, super(name);
 }
 
-abstract class QueryableProperty<DartType> extends Queryable {
-  const QueryableProperty(String fieldName) : super(fieldName);
+abstract class QueryableProperty<DartType, TModel, TQueryable extends QueryableModel<TModel>> extends Queryable {
+  final TQueryable queryableModel;
 
-  Expression isEqualsTo(DartType other) {
-    throw UnimplementedError();
+  const QueryableProperty(String fieldName, this.queryableModel) : super(fieldName);
+
+  Where<TModel, TQueryable> isEqualsTo(DartType other) {
+    var where = Where<TModel, TQueryable>(modelName, value: other, operator: CompareOperator.equal, queryableModel: queryableModel, isRequired: queryableModel._nextRequired);
+    queryableModel._expressions.add(where);
+    return where;
   }
 
-  void isNotEqualsTo(DartType other) {
-
-  }
-
-  void and() {
-
-  }
-
-  void or() {
-    
+  Where<TModel, TQueryable> isNotEqualsTo(DartType other) {
+    var where = Not<TModel, TQueryable>(Where(modelName, value: other, operator: CompareOperator.equal, queryableModel: queryableModel, isRequired: queryableModel._nextRequired));
+    queryableModel._expressions.add(where);
+    return where;
   }
 }
 
-abstract class NumQueryableProperty<NumericType extends num> extends QueryableProperty<NumericType> {
-  const NumQueryableProperty(String fieldName) : super(fieldName);
+abstract class NumQueryableProperty<NumericType extends num, TModel, TQueryable extends QueryableModel<TModel>> extends QueryableProperty<NumericType, TModel, TQueryable> {
+  const NumQueryableProperty(String fieldName, TQueryable queryableModel) : super(fieldName, queryableModel);
 
-  void isGreaterThan(NumericType other) {
-
+  Where<TModel, TQueryable> isGreaterThan(NumericType other) {
+    var where = Where<TModel, TQueryable>(modelName, value: other, operator: CompareOperator.greaterThan, queryableModel: queryableModel, isRequired: queryableModel._nextRequired);
+    queryableModel._expressions.add(where);
+    return where;
   }
 
-  void isGreaterThanOrEqualsTo(NumericType other) {
-
+  Where<TModel, TQueryable> isGreaterThanOrEqualsTo(NumericType other) {
+    var where = Where<TModel, TQueryable>(modelName, value: other, operator: CompareOperator.greaterThanOrEquals, queryableModel: queryableModel, isRequired: queryableModel._nextRequired);
+    queryableModel._expressions.add(where);
+    return where;
   }
   
-  void isLessThan(NumericType other) {
-
+  Where<TModel, TQueryable> isLessThan(NumericType other) {
+    var where = Where<TModel, TQueryable>(modelName, value: other, operator: CompareOperator.lessThan, queryableModel: queryableModel, isRequired: queryableModel._nextRequired);
+    queryableModel._expressions.add(where);
+    return where;
   }
   
-  void isLessThanOrEqualsTo(NumericType other) {
-
+  Where<TModel, TQueryable> isLessThanOrEqualsTo(NumericType other) {
+    var where = Where<TModel, TQueryable>(modelName, value: other, operator: CompareOperator.lessThanOrEquals, queryableModel: queryableModel, isRequired: queryableModel._nextRequired);
+    queryableModel._expressions.add(where);
+    return where;
   }
 }
 
-class IntQueryableProperty extends NumQueryableProperty<int> {
-  const IntQueryableProperty(String fieldName) : super(fieldName);
+class IntQueryableProperty<TModel, TQueryable extends QueryableModel<TModel>> extends NumQueryableProperty<int, TModel, TQueryable> {
+  const IntQueryableProperty(String fieldName, TQueryable queryableModel) : super(fieldName, queryableModel);
 }
 
-class DoubleQueryableProperty extends NumQueryableProperty<double> {
-  const DoubleQueryableProperty(String fieldName) : super(fieldName);
+class DoubleQueryableProperty<TModel, TQueryable extends QueryableModel<TModel>>  extends NumQueryableProperty<double, TModel, TQueryable> {
+  const DoubleQueryableProperty(String fieldName, TQueryable queryableModel) : super(fieldName, queryableModel);
 }
 
-class BoolQueryableProperty extends QueryableProperty<bool> {
-  const BoolQueryableProperty(String fieldName) : super(fieldName);
+class BoolQueryableProperty<TModel, TQueryable extends QueryableModel<TModel>> extends QueryableProperty<bool, TModel, TQueryable> {
+  const BoolQueryableProperty(String fieldName, TQueryable queryableModel) : super(fieldName, queryableModel);
 }
 
-class StringQueryableProperty extends QueryableProperty<String> {
-  const StringQueryableProperty(String fieldName) : super(fieldName);
+class StringQueryableProperty<TModel, TQueryable extends QueryableModel<TModel>> extends QueryableProperty<String, TModel, TQueryable> {
+  const StringQueryableProperty(String fieldName, TQueryable queryableModel) : super(fieldName, queryableModel);
 }
 
-class ListQueryableProperty<T> extends QueryableProperty<List<T>> {
-  const ListQueryableProperty(String fieldName) : super(fieldName);
+class ListQueryableProperty<T, TModel, TQueryable extends QueryableModel<TModel>> extends QueryableProperty<List<T>, TModel, TQueryable> {
+  const ListQueryableProperty(String fieldName, TQueryable queryableModel) : super(fieldName, queryableModel);
 
-  void includes(T item) {
-
+  Where<TModel, TQueryable> includes(T item) {
+    var where = Where<TModel, TQueryable>(modelName, value: item, operator: CompareOperator.includes, queryableModel: queryableModel, isRequired: queryableModel._nextRequired);
+    queryableModel._expressions.add(where);
+    return where;
   }
 
-  void excludes(T item) {
-
+  Where<TModel, TQueryable> excludes(T item) {
+    var where = Not<TModel, TQueryable>(Where(modelName, value: item, operator: CompareOperator.greaterThan, queryableModel: queryableModel, isRequired: queryableModel._nextRequired));
+    queryableModel._expressions.add(where);
+    return where;
   }
 }

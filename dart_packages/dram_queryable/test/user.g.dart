@@ -1,6 +1,7 @@
 /* THIS WILL BE A GENERATED FILE */
 import 'package:dram_queryable/dram_queryable.dart';
-import 'package:example/user.dart';
+
+import 'user.dart';
 
 class MyDatabase extends Database<MyDatabaseModel> {
   MyDatabase() : super(MyDatabaseModel._());
@@ -18,8 +19,8 @@ class MyDatabaseModel extends DatabaseModel {
 
 class UserModel extends QueryableModel<User> {
 
-  UserModel._() : super("users");
-  static UserModel _instance = UserModel._();
+  UserModel._() : super('users');
+  static final UserModel _instance = UserModel._();
 
   static final List<Queryable> _properties = [
     StringQueryableProperty<User, UserModel>('id', _instance),
@@ -41,8 +42,8 @@ class UserModel extends QueryableModel<User> {
 }
 
 class AddressModel extends QueryableModel<Address> {
-  static AddressModel _instance = AddressModel._();
-  AddressModel._() : super("addresses");
+  static final AddressModel _instance = AddressModel._();
+  AddressModel._() : super('addresses');
 
   static final List<Queryable> _properties = [
     StringQueryableProperty<Address, AddressModel>('street', _instance),
@@ -56,8 +57,8 @@ class AddressModel extends QueryableModel<Address> {
 }
 
 class CoordinatesModel extends QueryableModel<Coordinates> {
-  static CoordinatesModel _instance = CoordinatesModel._();
-  CoordinatesModel._() : super("coordinates");
+  static final CoordinatesModel _instance = CoordinatesModel._();
+  CoordinatesModel._() : super('coordinates');
   
   static final List<Queryable> _properties = [
     DoubleQueryableProperty<Coordinates, CoordinatesModel>('latitude', _instance),
@@ -70,7 +71,7 @@ class CoordinatesModel extends QueryableModel<Coordinates> {
 
 class PhoneNumberModel extends QueryableModel<PhoneNumber> {
   PhoneNumberModel._() : super('phoneNumber');
-  static PhoneNumberModel _instance = PhoneNumberModel._();
+  static final PhoneNumberModel _instance = PhoneNumberModel._();
 
   static final List<Queryable> _properties = [
     StringQueryableProperty<PhoneNumber, PhoneNumberModel>('prefix', _instance),
