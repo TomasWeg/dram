@@ -1,4 +1,4 @@
-name: dram_db
+name: drambase
 description: Cross platform NoSQL database
 version: 1.0.0
 repository: https://github.com/TomasWeg/dram
@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   dram_core: ^1.0.0
+  meta: any
   sqflite: ^2.0.0+3
 
 dependency_overrides:
