@@ -7,11 +7,11 @@ void main() {
 
   var database = MyDatabase();
   var model = database.select((model) => model.users);
-  model.where((queryable) => 
-    queryable
-    .name.isEqualsTo("tomas")
-    .or()
-    .points.isLessThan(20));
+  // model.where((queryable) => 
+  //   queryable
+  //   .name.isEqualsTo("tomas")
+  //   .or()
+  //   .points.isLessThan(20));
 }
 
 
