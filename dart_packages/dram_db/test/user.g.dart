@@ -1,86 +1,75 @@
-// /* THIS WILL BE A GENERATED FILE */
-// import 'package:dram_queryable/dram_queryable.dart';
+/* THIS WILL BE A GENERATED FILE */
+import 'package:drambase/src/database/field.dart';
+import 'package:drambase/src/database/model.dart';
+import 'package:drambase/src/database/table.dart';
+import 'package:drambase/src/query/query.dart';
 
-// import 'user.dart';
+import 'user.dart';
 
-// class MyDatabase extends Database<MyDatabaseModel> {
-//   MyDatabase() : super(MyDatabaseModel._());
-// }
+class UserTable extends DatabaseTable<User> {
 
-// class MyDatabaseModel extends DatabaseModel {
-//   MyDatabaseModel._();
+  UserTable._() : super('users');
+  static final UserTable _instance = UserTable._();
 
-//   static final List<QueryableModel> _models = [
-//     UserModel._(),
-//   ];
+  static final List<Queryable> _properties = [
+    StringTableField('id'),
+    StringTableField('name'),
+    StringTableField('lastName'),
+    IntTableField('age'),
+    DoubleTableField('points'),
+    ListTableField<Address>('addresses'),
+    PhoneNumberModel._()
+  ];
 
-//   UserModel get users => _models[0] as UserModel; 
-// }
+  StringTableField get id => _properties[0] as StringTableField;
+  StringTableField get name => _properties[1] as StringTableField;
+  StringTableField get lastName => _properties[2] as StringTableField;
+  IntTableField get age => _properties[3] as IntTableField;
+  DoubleTableField get points => _properties[4] as DoubleTableField;
+  ListTableField<Address> get addresses => _properties[5] as ListTableField<Address>;
+  PhoneNumberModel get phoneNumber => _properties[6] as PhoneNumberModel;
+}
 
-// class UserModel extends QueryableModel<User> {
+class AddressModel extends DatabaseModel<Address> {
+  static final AddressModel _instance = AddressModel._();
+  AddressModel._() : super('addresses');
 
-//   UserModel._() : super('users');
-//   static final UserModel _instance = UserModel._();
+  static final List<Queryable> _properties = [
+    StringTableField('street'),
+    IntTableField('streetNumber'),
+    CoordinatesModel._()
+  ];
 
-//   static final List<Queryable> _properties = [
-//     StringQueryableProperty('id'),
-//     StringQueryableProperty('name'),
-//     StringQueryableProperty('lastName'),
-//     IntQueryableProperty('age'),
-//     DoubleQueryableProperty('points'),
-//     ListQueryableProperty<Address>('addresses'),
-//     PhoneNumberModel._()
-//   ];
+  StringTableField get street => _properties[0] as StringTableField;
+  IntTableField get streetNumber => _properties[1] as IntTableField;
+  CoordinatesModel get coordinates => _properties[2] as CoordinatesModel;
+}
 
-//   StringQueryableProperty get id => _properties[0] as StringQueryableProperty;
-//   QueryableProperty<String> get name => _properties[1] as StringQueryableProperty;
-//   StringQueryableProperty get lastName => _properties[2] as StringQueryableProperty;
-//   IntQueryableProperty get age => _properties[3] as IntQueryableProperty;
-//   DoubleQueryableProperty get points => _properties[4] as DoubleQueryableProperty;
-//   ListQueryableProperty<Address> get addresses => _properties[5] as ListQueryableProperty<Address>;
-//   PhoneNumberModel get phoneNumber => _properties[6] as PhoneNumberModel;
-// }
-
-// class AddressModel extends QueryableModel<Address> {
-//   static final AddressModel _instance = AddressModel._();
-//   AddressModel._() : super('addresses');
-
-//   static final List<Queryable> _properties = [
-//     StringQueryableProperty('street'),
-//     IntQueryableProperty('streetNumber'),
-//     CoordinatesModel._()
-//   ];
-
-//   StringQueryableProperty get street => _properties[0] as StringQueryableProperty;
-//   IntQueryableProperty get streetNumber => _properties[1] as IntQueryableProperty;
-//   CoordinatesModel get coordinates => _properties[2] as CoordinatesModel;
-// }
-
-// class CoordinatesModel extends QueryableModel<Coordinates> {
-//   static final CoordinatesModel _instance = CoordinatesModel._();
-//   CoordinatesModel._() : super('coordinates');
+class CoordinatesModel extends DatabaseModel<Coordinates> {
+  static final CoordinatesModel _instance = CoordinatesModel._();
+  CoordinatesModel._() : super('coordinates');
   
-//   static final List<Queryable> _properties = [
-//     DoubleQueryableProperty('latitude'),
-//     DoubleQueryableProperty('longitude'),
-//   ];
+  static final List<Queryable> _properties = [
+    DoubleTableField('latitude'),
+    DoubleTableField('longitude'),
+  ];
 
-//   DoubleQueryableProperty get latitude => _properties[0] as DoubleQueryableProperty;
-//   DoubleQueryableProperty get longitude => _properties[1] as DoubleQueryableProperty;
-// }
+  DoubleTableField get latitude => _properties[0] as DoubleTableField;
+  DoubleTableField get longitude => _properties[1] as DoubleTableField;
+}
 
-// class PhoneNumberModel extends QueryableModel<PhoneNumber> {
-//   PhoneNumberModel._() : super('phoneNumber');
-//   static final PhoneNumberModel _instance = PhoneNumberModel._();
+class PhoneNumberModel extends DatabaseModel<PhoneNumber> {
+  PhoneNumberModel._() : super('phoneNumber');
+  static final PhoneNumberModel _instance = PhoneNumberModel._();
 
-//   static final List<Queryable> _properties = [
-//     StringQueryableProperty('prefix'),
-//     StringQueryableProperty('number'),
-//     StringQueryableProperty('country'),  
-//   ];
+  static final List<Queryable> _properties = [
+    StringTableField('prefix'),
+    StringTableField('number'),
+    StringTableField('country'),  
+  ];
 
 
-//   StringQueryableProperty get prefix => _properties[0] as StringQueryableProperty;
-//   StringQueryableProperty get number => _properties[1] as StringQueryableProperty;
-//   StringQueryableProperty get country => _properties[2] as StringQueryableProperty;
-// }
+  StringTableField get prefix => _properties[0] as StringTableField;
+  StringTableField get number => _properties[1] as StringTableField;
+  StringTableField get country => _properties[2] as StringTableField;
+}
