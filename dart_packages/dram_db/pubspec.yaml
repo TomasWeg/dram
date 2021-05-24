@@ -1,5 +1,5 @@
-name: dram_queryable
-description: Contains a generic way to query data.
+name: dram_db
+description: Cross platform NoSQL database
 version: 1.0.0
 repository: https://github.com/TomasWeg/dram
 # homepage: https://www.example.com

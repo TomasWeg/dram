@@ -1,11 +1,7 @@
-import 'package:dram_queryable/dram_queryable.dart';
-
-@Model()
 class User {
   final String id;
   final String name;
 
-  @ModelProperty(name: "lastName")
   final String surname;
   final int age;
   final double points;
