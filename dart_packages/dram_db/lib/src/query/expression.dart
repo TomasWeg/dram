@@ -2,7 +2,7 @@ part of 'query.dart';
 
 /// Represents a boolean expression
 /// [TDartType] is the Dart native type used in the expression
-class Expression<TDartType> {
+abstract class Expression<TDartType> {
 
   final String _fieldName;
   final CompareOperator _operator;
@@ -10,15 +10,9 @@ class Expression<TDartType> {
 
   const Expression({required String fieldName, required CompareOperator operator, required TDartType value}) : _fieldName = fieldName, _operator = operator, _value = value;
 
-  Expression<TDartType> copyWith({CompareOperator? operator, TDartType? value}) {
-    return Expression<TDartType>(
-      fieldName: _fieldName,
-      operator: operator ?? _operator,
-      value: value ?? _value
-    );
-  }
+  Expression<TDartType> copyWith({CompareOperator? operator, TDartType? value});
 }
 
 enum CompareOperator {
-  equal, greaterThan, greaterThanOrEqualsTo, lessThan, lessThanOrEqualsTo, includes
+  equal, notEqual, greaterThan, greaterThanOrEqualsTo, lessThan, lessThanOrEqualsTo, includes, excludes
 }

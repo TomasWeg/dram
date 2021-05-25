@@ -6,10 +6,10 @@ import 'package:drambase/src/query/query.dart';
 
 import 'user.dart';
 
-class UserTable extends DatabaseTable<User> {
+class UsersTable extends DatabaseTable<User> {
 
-  UserTable._() : super('users');
-  static final UserTable _instance = UserTable._();
+  UsersTable() : super('users');
+  static final UsersTable _instance = UsersTable();
 
   static final List<Queryable> _properties = [
     StringTableField('id'),
@@ -18,7 +18,7 @@ class UserTable extends DatabaseTable<User> {
     IntTableField('age'),
     DoubleTableField('points'),
     ListTableField<Address>('addresses'),
-    PhoneNumberModel._()
+    PhoneNumberModel._instance
   ];
 
   StringTableField get id => _properties[0] as StringTableField;
@@ -37,7 +37,7 @@ class AddressModel extends DatabaseModel<Address> {
   static final List<Queryable> _properties = [
     StringTableField('street'),
     IntTableField('streetNumber'),
-    CoordinatesModel._()
+    CoordinatesModel._instance
   ];
 
   StringTableField get street => _properties[0] as StringTableField;
