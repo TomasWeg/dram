@@ -1,14 +1,25 @@
+import 'package:drambase/drambase.dart';
+import 'package:drambase/src/annotations/table.dart';
+
+@table(name: 'users')
 class User {
+  
+  @primaryKey()
   final String id;
   final String name;
-
+  @index()
   final String surname;
+  @index()
+  @tableField(name: 'userAge')
   final int age;
   final double points;
   final List<Address> addresses;
   final PhoneNumber phoneNumber;
+  
+  @notMapped()
+  final bool isEnabled;
 
-  User({required this.id, required this.name, required this.surname, required this.age, required this.points, required this.addresses, required this.phoneNumber});
+  User({required this.id, required this.name, required this.surname, required this.age, required this.points, required this.addresses, required this.phoneNumber, required this.isEnabled});
 }
 
 class Address {
@@ -29,6 +40,8 @@ class Coordinates {
 class PhoneNumber {
   final String prefix;
   final String number;
+
+  @index()
   final String country;
 
   PhoneNumber({required this.prefix, required this.number, required this.country});

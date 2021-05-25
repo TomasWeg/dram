@@ -5,4 +5,7 @@ import 'package:drambase/src/query/query.dart';
 abstract class DatabaseModel<TDartType> extends Queryable {
   final String modelName;
   const DatabaseModel(this.modelName);
+
+  Map<String, Object> toTable(TDartType model);
+  TDartType fromTable(Map<String, Object> map);
 }

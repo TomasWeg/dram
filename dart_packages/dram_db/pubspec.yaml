@@ -11,7 +11,7 @@ environment:
 dependencies:
   dram_core: ^1.0.0
   meta: any
-  sqflite: ^2.0.0+3
+  messagepack: ^0.2.1
 
 dependency_overrides:
   dram_core:
