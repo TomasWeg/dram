@@ -3,8 +3,6 @@
 import 'package:drambase/src/converter/msg_pack_converter.dart';
 import 'package:test/test.dart';
 
-import 'database.g.dart';
-
 void main() {
   group('Test value converters', () {
     test('MessagePack converter', () {
@@ -27,11 +25,6 @@ void main() {
       var buffer = converter.encode(map);
       var decoded = converter.decode(buffer);
       print(decoded);
-    });
-
-    test('', () {
-      var db = AppDatabase();
-      var query = db.select((database) => database.users).where((table) => table.age.isEqualsTo(20));
     });
   });
 }

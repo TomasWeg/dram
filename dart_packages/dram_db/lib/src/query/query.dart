@@ -1,8 +1,14 @@
+
+import 'dart:convert';
+
 import 'package:drambase/src/database/database.dart';
 
+part 'debug_print.dart';
 part 'expression.dart';
+part 'parser.dart';
+part 'boolean_expression.dart';
 part 'queryable.dart';
-part 'query_expression.dart';
+part 'repair.dart';
 
 class Query<TModel, TTable extends DatabaseTable<TModel>> {
 

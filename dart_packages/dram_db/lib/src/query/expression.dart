@@ -4,9 +4,9 @@ part of 'query.dart';
 /// [TDartType] is the Dart native type used in the expression
 abstract class Expression {
 
-  final String _fieldName;
+  final String? _fieldName;
 
-  const Expression({required String fieldName}) : _fieldName = fieldName;
+  const Expression({required String? fieldName}) : _fieldName = fieldName;
 }
 
 enum CompareOperator {
