@@ -8,7 +8,6 @@ class Query<TModel, TTable extends DatabaseTable<TModel>> {
 
   final List<Expression> _where = [];
   final TTable _table;
-  // final Database _db;
 
   Query._(this._table);
 
@@ -16,9 +15,17 @@ class Query<TModel, TTable extends DatabaseTable<TModel>> {
     return Query._(table);   
   }
 
-  Query where<TDartType>(Expression<TDartType> Function(TTable table) expression) {
+  /// Applies a condition to a data source query
+  Query<TModel, TTable> where<TDartType>(Expression Function(TTable table) expression) {
     var result = expression(_table);
     _where.add(result);
+    return this;
+  }
+
+  /// Aplies many AND conditions to a data source query
+  Query<TModel, TTable> whereC(Iterable<Expression> Function(TTable table) expressions) {
+    var result = expressions(_table);
+    _where.addAll(result);
     return this;
   }
 

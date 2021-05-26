@@ -2,15 +2,11 @@ part of 'query.dart';
 
 /// Represents a boolean expression
 /// [TDartType] is the Dart native type used in the expression
-abstract class Expression<TDartType> {
+abstract class Expression {
 
   final String _fieldName;
-  final CompareOperator _operator;
-  final TDartType _value;
 
-  const Expression({required String fieldName, required CompareOperator operator, required TDartType value}) : _fieldName = fieldName, _operator = operator, _value = value;
-
-  Expression<TDartType> copyWith({CompareOperator? operator, TDartType? value});
+  const Expression({required String fieldName}) : _fieldName = fieldName;
 }
 
 enum CompareOperator {

@@ -5,32 +5,32 @@ abstract class DatabaseTableField<TDartType> extends Queryable {
 
   const DatabaseTableField(this.fieldName);
 
-  Expression<TDartType> isEqualsTo(TDartType other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.equal, value: other);
+  BooleanExpression<TDartType> isEqualsTo(TDartType other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.equal, value: other);
   }
 
-  Expression<TDartType> isNotEqualsTo(TDartType other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.notEqual, value: other);
+  BooleanExpression<TDartType> isNotEqualsTo(TDartType other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.notEqual, value: other);
   } 
 }
 
 abstract class NumericTableField<TNum extends num> extends DatabaseTableField<TNum> {
   const NumericTableField(String fieldName) : super(fieldName);
 
-  Expression<TNum> isGreaterThan(TNum other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.greaterThan, value: other);
+  BooleanExpression<TNum> isGreaterThan(TNum other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.greaterThan, value: other);
   }
 
-  Expression<TNum> isGreaterThanOrEqualsTo(TNum other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.greaterThanOrEqualsTo, value: other);
+  BooleanExpression<TNum> isGreaterThanOrEqualsTo(TNum other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.greaterThanOrEqualsTo, value: other);
   }
 
-  Expression<TNum> isLessThan(TNum other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.lessThan, value: other);
+  BooleanExpression<TNum> isLessThan(TNum other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.lessThan, value: other);
   }
 
-  Expression<TNum> isLessThanOrEqualsTo(TNum other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.lessThanOrEqualsTo, value: other);
+  BooleanExpression<TNum> isLessThanOrEqualsTo(TNum other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.lessThanOrEqualsTo, value: other);
   }
 }
 
@@ -53,23 +53,23 @@ class BoolTableField extends DatabaseTableField<bool> {
 class ListTableField<T> extends DatabaseTableField<List<T>> {
   const ListTableField(String fieldName) : super(fieldName);
 
-  Expression<T> includes(T item) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.includes, value: item);
+  BooleanExpression<T> includes(T item) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.includes, value: item);
   }
 
-  Expression<T> excludes(T item) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.excludes, value: item);
+  BooleanExpression<T> excludes(T item) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.excludes, value: item);
   }
 }
 
 class DateTimeTableField extends DatabaseTableField<DateTime> {
   const DateTimeTableField(String fieldName) : super(fieldName);
 
-  Expression<int> isAfter(DateTime other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.greaterThan, value: other.millisecondsSinceEpoch);
+  BooleanExpression<int> isAfter(DateTime other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.greaterThan, value: other.millisecondsSinceEpoch);
   }
 
-  Expression<int> isBefore(DateTime other) {
-    return QueryExpression(fieldName: fieldName, operator: CompareOperator.lessThan, value: other.millisecondsSinceEpoch);
+  BooleanExpression<int> isBefore(DateTime other) {
+    return BooleanExpression(fieldName: fieldName, operator: CompareOperator.lessThan, value: other.millisecondsSinceEpoch);
   }
 }
