@@ -5,29 +5,13 @@ void debugPrint(Query query) {
   print('=================================');
   print('Printing query on table: ${query._table.runtimeType} (${query._table.tableName})');
 
-  _printExpressions(query._where, 0, false);
+  _printExpr(query._where, 0, false);
 }
 
 void tracePrint(Query query) {
   print('=================================');
   print('Printing trace query on table: ${query._table.runtimeType} (${query._table.tableName})');
-  print('Expressions count: ${query._where.length}');
-  
-  var total = query._where.length;
-  total += _totalCount(query._where);
-  print('Total expression count: $total');
-
-  _printExpressions(query._where, 0, true);
-}
-
-int _totalCount(Iterable<Expression> exprs) {
-  var count = 0;
-  for(var expr in exprs.whereType<BooleanExpression>()) {
-    count += expr._children.length;
-    count += _totalCount(expr._children);
-  }
-
-  return count;
+  _printExpr(query._where, 0, true);
 }
 
 void _printExpressions(Iterable<Expression> expressions, int deep, bool trace) {
@@ -54,5 +38,25 @@ void _printExpr(Expression expr, int deep, bool trace) {
       deep++;
       _printExpressions(expr._children, deep, trace);
     }
+  } else if(expr is BinaryExpression) {
+    _printBinary(expr, 0);
+  }
+}
+
+void _printBinary(BinaryExpression expr, int deep, {bool tabFirst = true}) {
+  var tab = List.filled(deep, '\t').join('');
+  io.stdout.write('${tabFirst ? tab : ''}Binary expression: ${expr.sqlName}\n');
+  io.stdout.writeln('$tab\t--> Left: ');
+  if(expr.left is BooleanExpression) {
+    io.stdout.write('${_sql(expr.left as BooleanExpression)}');
+  } else {
+    _printBinary(expr.left as BinaryExpression, deep+1);
+  }
+
+  io.stdout.write('$tab\t--> Right: ');
+  if(expr.right is BooleanExpression) {
+    io.stdout.write('${_sql(expr.right as BooleanExpression)}\n');
+  } else {
+    _printBinary(expr.right as BinaryExpression, deep+1, tabFirst: false);
   }
 }

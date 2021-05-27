@@ -21,13 +21,17 @@ class BooleanExpression<TDartType> extends Expression {
   }
 
   /// Concats an AND expression
-  BooleanExpression<TDartType> and<DartType>(BooleanExpression<DartType> expression) {
-    _children.add(expression.copyWith(parent: this));
-    return this;
+  AndExpression and<DartType>(Expression expression) {
+    if(expression is BooleanExpression) {
+      _children.add(expression.copyWith(parent: this));
+    }
+    return AndExpression(this, expression);
   }
 
-  BooleanExpression<TDartType> or<DartType>(BooleanExpression<DartType> expression) {
-    _children.add(expression.copyWith(isRequired: false, parent: this));
-    return this;
+  OrExpression or<DartType>(Expression expression) {
+    if(expression is BooleanExpression) {
+      _children.add(expression.copyWith(isRequired: false, parent: this));
+    }
+    return OrExpression(this, expression);
   }
 }

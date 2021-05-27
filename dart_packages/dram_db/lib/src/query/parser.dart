@@ -5,44 +5,52 @@ String toSql(Query query) {
 
   var _buffer = StringBuffer('SELECT * FROM ${query._table.tableName} WHERE ');
 
-  // Filter expressions
-  var whereExpressions = repairBoolean(query._where.whereType<BooleanExpression>());
-  _writeWhereExpressions(_buffer, whereExpressions);
+  // Where expressions
+  _writeWhereExpression(_buffer, query._where);
+  _buffer.write(' ');
+
+  // Order expressions
+  if(query._sort.isNotEmpty) {
+    _writeOrderExpression(_buffer, query._sort.entries.first.key, query._sort.entries.first.value);
+    _buffer.write(' ');
+  }
+
+  // Write SKIP & LIMIT
+  if(query._limit != null) {
+    _buffer.write('LIMIT ${query._limit!.count}');
+  }
+
+  if(query._skip?.count != 0) {
+    _buffer.write(' OFFSET ${query._skip!.count}');
+  }
 
   _buffer.write(';');
 
-  return _sanitize(_buffer.toString());
+  return _buffer.toString();
 }
 
-void _writeWhereExpressions(StringBuffer stringBuffer, List<BooleanExpression> exprs) {
-  for(var expr in exprs) {
-    _writeWhere(stringBuffer, expr);
-    if(expr._children.isNotEmpty) {
-      if(expr._required) {
-        stringBuffer.write(' AND (');
-      } else {
-        stringBuffer.write(' OR (');
-      }
-      _writeWhereExpressions(stringBuffer, expr._children);
-      stringBuffer.write(')');
-    }
-
-    if(expr._required) {
-        stringBuffer.write(' AND ');
-      } else {
-        stringBuffer.write(' OR ');
-      }
+void _writeWhereExpression(StringBuffer buffer, Expression expression) {
+  if(expression is BooleanExpression) {
+    buffer.write(_sql(expression));
+  } else if(expression is BinaryExpression) {
+    buffer.write('('); // Maybe wrap this expression and allow the execution only if the expression is an OrExpression
+    _writeWhereExpression(buffer, expression.left);
+    buffer.write(expression.sqlName);
+    _writeWhereExpression(buffer, expression.right);
+    buffer.write(')');
+  } else {
+    throw Exception("Don't know how to handle ${expression.runtimeType} expression.");
   }
 }
 
-String _sanitize(String sql) {
-  sql = sql.replaceAll(' AND )', ')').replaceAll(' OR )', ')');
-
-  return sql.replaceFirst(' AND ', '', sql.length - 6).replaceFirst(' OR ', '', sql.length - 6);
+void _writeOrderExpression(StringBuffer buffer, DatabaseTableField field, SortDirection direction) {
+  buffer.write('ORDER BY ');
+  buffer.write('${field.fieldName} ');
+  buffer.write(_direction(direction));
 }
 
-void _writeWhere(StringBuffer stringBuffer, BooleanExpression expr) {
-  stringBuffer.write('${expr._fieldName} ${_sqlOperator(expr._operator)} ${_value(expr._value)}');
+String _sql(BooleanExpression expr) {
+  return '${expr._fieldName} ${_sqlOperator(expr._operator)} ${_value(expr._value)}';
 }
 
 dynamic _value(dynamic value) {
@@ -67,4 +75,12 @@ const _sqlOperators = <CompareOperator, String>{
 };
 String _sqlOperator(CompareOperator operator) {
   return _sqlOperators[operator]!;
+}
+
+const _sqlDirection = <SortDirection, String>{
+  SortDirection.ascending: 'ASC',
+  SortDirection.descending: 'DESC'
+};
+String _direction(SortDirection direction) {
+  return _sqlDirection[direction]!;
 }

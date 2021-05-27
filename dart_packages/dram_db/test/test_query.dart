@@ -18,9 +18,10 @@ void main() {
 
       var query = _db
         .select((database) => database.users)
-        .where((table) => table.age.isGreaterThanOrEqualsTo(20));
+        .where((table) => table.age.isGreaterThanOrEqualsTo(20))
+        .orderBy((table) => table.age)
+        .paginate(1, 30);
 
-      debugPrint(query);
       var sql = toSql(query);
       print('SQL: $sql');
     });
@@ -35,13 +36,12 @@ void main() {
           .and(table.points.isLessThan(200))
           .and(table.lastName.isEqualsTo('Bohil')));
 
-      debugPrint(query);
       var sql = toSql(query);
       print('SQL: $sql');
     });
 
     test('Simple OR query', () {
-      // Evaluation and evaluation: WHERE age = 20 or name != 'Tomas'
+      // Evaluation and evaluation: WHERE age = 20 OR name != 'Tomas'
       
       var query = _db
         .select((database) => database.users)
@@ -52,7 +52,7 @@ void main() {
       print('SQL: $sql');
     });
     
-    test('Complex AND with OR query', () {
+    test('Complex AND with OR query #1', () {
       // Evaluation: WHERE age = 20 AND name != 'Tomas' OR points >= 255.50
       // Execution plan: WHERE age = 20 AND (name != 'Tomas' OR points >= 255.50)
       
@@ -60,9 +60,7 @@ void main() {
         .select((database) => database.users)
         .where((table) => 
           table.age.isEqualsTo(20)
-          .and(table.name.isNotEqualsTo('Tomas'))
-          .or(table.points.isGreaterThanOrEqualsTo(255.50)));
-      debugPrint(query);
+          .and(table.name.isNotEqualsTo('Tomas').or(table.points.isGreaterThanOrEqualsTo(255.50))));
       var sql = toSql(query);
       print('SQL: $sql');
     });
@@ -75,10 +73,9 @@ void main() {
         .select((database) => database.users)
         .where((table) => 
           table.age.isEqualsTo(20)
-          .and(table.name.isNotEqualsTo('Tomas'))
-          .or(table.points.isGreaterThanOrEqualsTo(255.50))
-          .or(table.lastName.isEqualsTo('Monserrat')));
-      debugPrint(query);
+          .and(table.name.isNotEqualsTo('Tomas')
+            .or(table.points.isGreaterThanOrEqualsTo(255.50))
+            .or(table.lastName.isEqualsTo('Monserrat'))));
       var sql = toSql(query);
       print('SQL: $sql');
     });
@@ -98,7 +95,6 @@ void main() {
             .and(table.phoneNumber.prefix.isEqualsTo('+54')))
         );
 
-      debugPrint(query);
       var sql = toSql(query);
       print('SQL: $sql');
     });
