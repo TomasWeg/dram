@@ -170,9 +170,9 @@ func Update(tableNamePtr *C.char, entityIdPtr *C.char, buffPtr *C.uchar, data_le
 }
 
 //export Query
-func Query(tableNamePtr *C.char, queryPtr *C.char) *C.uchar {
-
-}
+// func Query(tableNamePtr *C.char, queryPtr *C.char) *C.uchar {
+// 	return 0x00
+// }
 
 //export Close
 func Close() byte {
